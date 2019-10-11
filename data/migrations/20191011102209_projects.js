@@ -29,8 +29,6 @@ exports.up = function(knex) {
         .notNullable()
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-        tbl.unique(['project_id']);
-        
     })
 };
 

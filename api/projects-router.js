@@ -9,7 +9,9 @@ router.use((req, res, next) => {
     next();
   })
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) => 
+{   
+   
     Projects.get()
     .then(projects => {
         res.status(200).json(projects)
@@ -40,7 +42,11 @@ router.get('/:id/resources', (req, res) => {
 })
 router.get('/:id/tasks', (req, res) => {
     Projects.getTasks(req.params.id)
+    
     .then(tasks => {
+        if(tasks.completed === false){
+            return false
+        }
         res.status(200).json(tasks)
     })
     .catch(err => {
@@ -49,6 +55,8 @@ router.get('/:id/tasks', (req, res) => {
 })
 
 router.post('/', [ validateProject ], (req, res) => {
+
+
     Projects.add(req.body)
     .then(project => {
         res.status(201).json(req.body)
@@ -97,13 +105,16 @@ function validateProject(req, res, next) {
       }
     
 };
+
 function validateTask(req, res, next) {
     const Post = req.body;
+       
     if (Post && Object.keys(Post).length > 0) {
         next();
-      } else if (!Post.description || !Post.project_id ){
+      } else if (!Post.description ){
         res.status(400).json({ message: 'missing required description field' });
       }
+        
       else {
         res.status(400).json({ message: "missing project data" });
       

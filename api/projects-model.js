@@ -34,7 +34,7 @@ function getTasks(id) {
     return db('tasks')
     .join('projects', 'projects.id', '=', 'tasks.project_id')
     .where('tasks.project_id', '=', id)
-    .select('tasks.id',"resources.description", "tasks.notes", "tasks.completed" )
+    .select('tasks.id',"tasks.description", "tasks.notes", "tasks.completed" )
 }
 
 function add(project) {
@@ -56,3 +56,4 @@ function addTasks(task) {
         return getById(ids[0]);
       });
 }
+
